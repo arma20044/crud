@@ -1,6 +1,7 @@
 'use client'
 
 
+import { redirect } from "next/navigation"
 import { Button } from "./ui/button"
 import { SessionProvider, useSession,signIn,signOut } from "next-auth/react"
 
@@ -18,6 +19,10 @@ export default function Logoutpage() {
       <span>ESPERE...</span>
     )
   }
+
+  // if(status==='unauthenticated'){
+  //   redirect('/login')
+  // }
 
   if(status==='authenticated'){
     return(
