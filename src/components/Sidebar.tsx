@@ -3,7 +3,7 @@
 import Items, { ItemsList } from "./dashboard/Items";
 import Logoutpage from "./logoutpage";
 import { usePathname } from 'next/navigation'
-import { IoIdCard, IoPerson } from "react-icons/io5";
+import { IoCar, IoIdCard, IoPerson } from "react-icons/io5";
 
 
 
@@ -29,6 +29,12 @@ export default function Sidebar() {
             title: 'Activities',
             subtitle: ''
         },
+        {
+            path: '/dashboard/cars',
+            icon: <IoCar size={40} />,
+            title: 'Cars',
+            subtitle: ''
+        },
     ]
 
 
@@ -45,7 +51,7 @@ export default function Sidebar() {
 
                     <div>
                         {menuItems.map((e) =>
-                            <Items icon={e.icon} path={e.path} title={e.title} subtitle={e.subtitle} />
+                            <Items key={e.path} icon={e.icon} path={e.path} title={e.title} subtitle={e.subtitle} />
                         )}
                     </div>
 
