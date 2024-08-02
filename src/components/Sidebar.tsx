@@ -35,6 +35,12 @@ export default function Sidebar() {
             title: 'Cars',
             subtitle: ''
         },
+        {
+            path: '/dashboard/persona',
+            icon: <IoPerson size={40} />,
+            title: 'Persona',
+            subtitle: ''
+        },
     ]
 
 

@@ -2,15 +2,17 @@
 
 import { createCars, listCars, softDelteCars } from "@/app/helpers/cars/cars";
 import { Button } from "@mui/material";
-import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowSelectionModel, GridToolbar } from "@mui/x-data-grid";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 import { FormEvent, useEffect, useState } from "react";
 import { IoAdd } from "react-icons/io5";
 
+import { esES } from '@mui/x-data-grid/locales';
 
-export default function FormCar({data}) {
+
+export default function FormCar({ data }) {
 
   const router = useRouter();
 
@@ -49,11 +51,11 @@ export default function FormCar({data}) {
     React.useState<GridRowSelectionModel>([]);
 
 
-    useEffect(() => {
-      rowSelectionModel && console.log( rowSelectionModel )
-    }, [rowSelectionModel])
+  useEffect(() => {
+    rowSelectionModel && console.log(rowSelectionModel)
+  }, [rowSelectionModel])
 
-  function handleClick(){
+  function handleClick() {
     //throw new Error("Function not implemented.");
     console.log('borrar', rowSelectionModel)
 
@@ -62,31 +64,45 @@ export default function FormCar({data}) {
     router.refresh()
   }
 
+
+
+
   return (
     <div>
       <h1>Hello CAR Page</h1>
 
-      {rowSelectionModel.length > 0 &&  <Button color="error" startIcon={<IoAdd size={40} />} onClick={handleClick}>
-          Borrar
-        </Button>}
+      {rowSelectionModel.length > 0 && <Button color="error" startIcon={<IoAdd size={40} />} onClick={handleClick}>
+        Borrar
+      </Button>}
 
-      <DataGrid rows={data} columns={columns}
+      <DataGrid
+
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+        //checkboxSelection
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+          },
+        }}
+        slots={{ toolbar: GridToolbar }}
+        //={[5,10]} 
+        rows={data} columns={columns}
         rowSelectionModel={rowSelectionModel}
         onRowSelectionModelChange={(newRowSelectionModel) => {
           setRowSelectionModel(newRowSelectionModel);
         }}
       />
-      
-
-        {data && data?.map(
-          e =>
-            <div key={e.model}>
-              {e.brand + ' ' + e.model + ' ' + e.year + ' ' + e.activo}
-            </div>
-        )}
 
 
-     
+      {data && data?.map(
+        e =>
+          <div key={e.model}>
+            {e.brand + ' ' + e.model + ' ' + e.year + ' ' + e.activo}
+          </div>
+      )}
+
+
+
 
 
     </div>
