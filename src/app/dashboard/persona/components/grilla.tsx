@@ -1,11 +1,16 @@
 'use client'
 
 import { esES } from '@mui/x-data-grid/locales';
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import React from 'react';
+import { borrarPersona, listPersonas } from '@/app/helpers/persona/persona';
+import Link from 'next/link';
 
 export default function Grilla({data}) {
+
+
 
   const router = useRouter();
 
@@ -16,21 +21,55 @@ export default function Grilla({data}) {
     { field: 'fecha_nacimiento', headerName: 'fecha_nacimiento', width: 250 },
     { field: 'correo_electronico', headerName: 'correo_electronico', width: 250 },
   ];
+
+
+  const borrar = () => {
+
+    console.log('quiero borrar')
+    console.log(JSON.stringify(rowSelectionModel))
+
+    if (rowSelectionModel.length === 0 ){
+      alert("Seleccionar Primero")
+    }
+    else {
+      borrarPersona(JSON.stringify({
+        "id": rowSelectionModel[0]
+      })) 
+    }
+
+    
+
+  }
+
+  const [rowSelectionModel, setRowSelectionModel] =
+    React.useState<GridRowSelectionModel>([]);
   
   return (
     <div>
       <button className={
         `bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`
       }  onClick={() => router.push('/dashboard/persona/nuevo') }>Agregar</button>
+
+<button className={
+        `bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mx-4 rounded`
+      }  onClick={() => borrar() }>Borrar</button>
+
+      <Link href={"/dashboard/persona/nuevo"}>Add</Link>
+
       <h1>Hello Grilla</h1>
       {/* {JSON.stringify(data)} */}
 
-      <DataGrid 
+      {  <DataGrid 
       localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-            //  localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+          
 
       rows={data} columns={columns}
-      />
+
+      rowSelectionModel={rowSelectionModel}
+      onRowSelectionModelChange={(newRowSelectionModel) => {
+        setRowSelectionModel(newRowSelectionModel);
+      }}
+      />}
     </div>
   );
 }
