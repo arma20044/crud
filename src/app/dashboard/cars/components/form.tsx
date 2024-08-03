@@ -24,18 +24,6 @@ export default function FormCar({ data }) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
   //console.log('esto llego: ' + JSON.stringify(data))
 
   const columns: GridColDef[] = [

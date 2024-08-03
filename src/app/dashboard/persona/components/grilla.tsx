@@ -23,6 +23,17 @@ export default function Grilla({data}) {
   ];
 
 
+  function handleClick() {
+    //throw new Error("Function not implemented.");
+    console.log('borrar', rowSelectionModel)
+
+    borrarPersona(JSON.stringify({
+      "id": rowSelectionModel[0]
+    }));
+
+    router.refresh()
+  }
+
   const borrar = () => {
 
     console.log('quiero borrar')
@@ -35,6 +46,9 @@ export default function Grilla({data}) {
       borrarPersona(JSON.stringify({
         "id": rowSelectionModel[0]
       })) 
+
+      router.refresh()
+      
     }
 
     
@@ -52,7 +66,7 @@ export default function Grilla({data}) {
 
 <button className={
         `bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mx-4 rounded`
-      }  onClick={() => borrar() }>Borrar</button>
+      }  onClick={handleClick }>Borrar</button>
 
       <Link href={"/dashboard/persona/nuevo"}>Add</Link>
 

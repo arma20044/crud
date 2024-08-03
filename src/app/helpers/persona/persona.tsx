@@ -49,10 +49,12 @@ export const borrarPersona = async(body: string) => {
     const car = await fetch('/api/persona', {
         method: 'DELETE',
         body,
-        cache:'no-cache'
+       // cache:'no-cache'
 
     }).then(res => res.json()
     )
+
+    console.log('asdsa: ' + {car})
 
     return car
 
