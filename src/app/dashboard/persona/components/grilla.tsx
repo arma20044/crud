@@ -73,7 +73,9 @@ export default function Grilla({data}) {
       <h1>Hello Grilla</h1>
       {/* {JSON.stringify(data)} */}
 
-      {  <DataGrid 
+      { 
+      <div style={{ height: 350, width: '100%' }}>
+      <DataGrid 
       localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           
 
@@ -83,7 +85,9 @@ export default function Grilla({data}) {
       onRowSelectionModelChange={(newRowSelectionModel) => {
         setRowSelectionModel(newRowSelectionModel);
       }}
-      />}
+      />
+      </div>
+      }
     </div>
   );
 }

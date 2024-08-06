@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { sql } from '@vercel/postgres';
+import { revalidatePath } from 'next/cache';
  
  
 
@@ -40,8 +41,7 @@ export async function POST(request: Request, context: { params: { saludo: string
   //model VARCHAR(255),
   //year INT
 
-  try{
-
+  
     const { nombre, apellido,fecha_nacimiento,correo_electronico } = await request.json();
 
    // const { saludo } = context.params
@@ -51,23 +51,16 @@ export async function POST(request: Request, context: { params: { saludo: string
 
     console.log('exxx:'  + JSON.stringify(response))
 
+    revalidatePath('/dashboard/persona')
+
     return new Response(JSON.stringify({
         message: `Hello INSERT PERSONA: ${JSON.stringify(response)}`
        // message: `${saludo}`
       // message: "hola"
     }), { status: 200 });
 
-}
-catch(err){
 
-    console.log("ERROR INSER PERSONA: " + JSON.stringify(err))
 
-    return new Response(JSON.stringify({
-        message: `Error al insertar persona. error: ${err}`
-       // message: `${saludo}`
-      // message: "hola"
-    }), { status: 500 });
-}
 
 
 }

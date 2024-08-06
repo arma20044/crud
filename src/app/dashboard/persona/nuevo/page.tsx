@@ -19,11 +19,12 @@ import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createPersona, listPersonas } from "@/app/helpers/persona/persona";
 import { useRouter } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 
 const formSchema = z.object({
-    nombre: z.string({ }).min(10,{
-        message:'Debe tener minimo 10 caracteres'        
+    nombre: z.string({ }).min(1,{
+        message:'Debe tener minimo 1 caracteres'        
     }).max(20,{
        message:'Debe tener maximo 20 caracteres'
     }),
@@ -42,30 +43,25 @@ export default function NuevoPage() {
 
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = (data) => {
+    const onSubmit = async(data) => {
+
+        console.log('onsubmit crear persona')
 
         
 
-        try{
-
-        console.log(JSON.stringify(data));
-
-       const personaCrear = createPersona(JSON.stringify({
+       const personaCrear = await createPersona(JSON.stringify({
             'nombre': data.nombre,
             'apellido': data.apellido,
             'fecha_nacimiento': data.fechaNacimiento,
             'correo_electronico':data.correoElectronico
           }))
 
-          JSON.stringify('personaCrear :' + JSON.stringify(personaCrear))
-          route.refresh();
-           
+          console.log('personaCrear :' + JSON.stringify(personaCrear))
+          
+         route.refresh();
           route.back()
-        }
-        catch(err){
-            console.log('ERROR: ' + JSON.stringify(err))
-        }
-
+           
+      
 
     }
 
