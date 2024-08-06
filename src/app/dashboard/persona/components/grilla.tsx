@@ -7,9 +7,11 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { borrarPersona, listPersonas } from '@/app/helpers/persona/persona';
 import Link from 'next/link';
+import { useFormStatus } from 'react-dom';
 
 export default function Grilla({data}) {
 
+  const { pending } = useFormStatus()
 
 
   const router = useRouter();
@@ -66,7 +68,7 @@ export default function Grilla({data}) {
 
 <button className={
         `bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mx-4 rounded`
-      }  onClick={handleClick }>Borrar</button>
+      }  onClick={handleClick } type='submit' disabled={pending}>Borrar</button>
 
       <Link href={"/dashboard/persona/nuevo"}>Add</Link>
 
