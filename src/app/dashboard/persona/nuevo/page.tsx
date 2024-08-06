@@ -20,6 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createPersona, listPersonas } from "@/app/helpers/persona/persona";
 import { useRouter } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { useFormStatus } from "react-dom";
 
 
 const formSchema = z.object({
@@ -38,6 +39,8 @@ const formSchema = z.object({
 
 
 export default function NuevoPage() {
+
+    const { pending } = useFormStatus()
 
     const route = useRouter();
 
@@ -151,7 +154,7 @@ export default function NuevoPage() {
                             </FormItem>
                         )}
                     />
-                    <Button type="submit">Enviar</Button>
+                    <Button type="submit" aria-disabled={pending}>Enviar</Button>
                 </form>
             </Form>
 

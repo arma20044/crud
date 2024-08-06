@@ -4,6 +4,11 @@ const nextConfig = {
         domains:[
             'placehold.co'
         ]
+    },
+    logging:{
+        fetches: {
+            fullUrl:true,
+        }
     }
 };
 
