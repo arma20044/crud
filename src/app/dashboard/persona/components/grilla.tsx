@@ -4,10 +4,11 @@ import { esES } from '@mui/x-data-grid/locales';
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { borrarPersona, listPersonas } from '@/app/helpers/persona/persona';
 import Link from 'next/link';
 import { useFormStatus } from 'react-dom';
+import { setCookie } from 'cookies-next'
 
 export default function Grilla({data}) {
 
@@ -15,6 +16,9 @@ export default function Grilla({data}) {
 
 
   const router = useRouter();
+
+
+
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'id', width: 150 },
@@ -59,6 +63,13 @@ export default function Grilla({data}) {
 
   const [rowSelectionModel, setRowSelectionModel] =
     React.useState<GridRowSelectionModel>([]);
+
+    useEffect(() => {
+      rowSelectionModel && rowSelectionModel.length>0 && setCookie('seleccionado',rowSelectionModel)
+    
+      
+    }, [rowSelectionModel])
+    
   
   return (
     <div>

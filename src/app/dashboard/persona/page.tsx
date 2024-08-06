@@ -7,8 +7,28 @@ import { listPersonas } from "@/app/helpers/persona/persona";
 import { Button } from "@mui/material";
 import { Suspense, useEffect } from "react";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
  
 export default async function PersonaPage() {
+
+  const session = await getServerSession();
+
+
+
+
+
+if(!session){
+    redirect('/login')
+}
+
+
+  const cookieStore = cookies();
+
+  const selected = cookieStore.get('seleccionado')
+
+  console.log(selected?.value)
 
 
   
@@ -34,6 +54,7 @@ export default async function PersonaPage() {
   return (
     <div>
       <h1>Hello PERSONA Page</h1>
+      {'selected COOKIE: ' + JSON.stringify(selected)}
       <Suspense fallback={<div>Loading...</div>}>
       <Grilla data={data} />
       </Suspense>
