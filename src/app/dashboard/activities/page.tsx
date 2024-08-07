@@ -35,19 +35,19 @@ export default async function ActivitiesPage() {
      function AgregarButton() {
        
       return (
-        <div>
-          <button  className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+        <div className="my-5">
+          {/* <button  className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
             Add
-          </button>
-          <Link href={'/dashboard/activities/nuevo'}>Ir</Link>
+          </button> */}
+          <Link className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href={'/dashboard/activities/nuevo'}>Agregar</Link>
         </div>
       );
     }
 
 
   return (
-    <div>
-      <h1>Hello ActivitiesPage</h1>
+    <div>      
+      <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Activities</h2>
       <AgregarButton/>
       <Suspense fallback={null}>
             <CantidadActivities/>
