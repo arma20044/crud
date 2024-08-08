@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import {unstable_noStore as noStore} from 'next/cache'
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import Grilla from "./components/grilla";
  
 
 interface Props {
@@ -20,12 +21,13 @@ export default async function ActivitiesPage() {
         console.log(JSON.stringify(data))
 
         return (
-            data.resultado.map((e : Props) => 
-                <div className="flex bg-cyan-300 ">
-                <h1>{e.nombre }</h1>
-                <h1 className="px-2">{e.activo.toString() }</h1>
-                </div>
-            )
+            // data.resultado.map((e : Props) => 
+            //     <div className="flex bg-cyan-300 ">
+            //     <h1>{e.nombre }</h1>
+            //     <h1 className="px-2">{e.activo.toString() }</h1>
+            //     </div>
+            // )
+            <Grilla data={data.resultado}/>
         )
         
     }
@@ -51,6 +53,7 @@ export default async function ActivitiesPage() {
       <AgregarButton/>
       <Suspense fallback={null}>
             <CantidadActivities/>
+            
       </Suspense>
     </div>
   );
