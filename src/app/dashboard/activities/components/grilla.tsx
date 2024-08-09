@@ -28,7 +28,8 @@ export default function Grilla({ data }) {
 
     const seleccionado = data.filter(item => item.id == rowSelectionModel[0]);
 
-    router.push(`/dashboard/activities/editar?dato=${seleccionado}`)
+    router.push(`/dashboard/activities/editar?dato=${id}`)
+
 
   }
 
