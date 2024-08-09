@@ -39,3 +39,12 @@ export const crearActivities = async(datos:Props) => {
 
 
 }
+
+
+export const eliminarActivities = async(id:number) => {
+
+    const response = await sql `DELETE FROM ACTIVITIES WHERE ID = ${id}`;
+
+    return response;
+
+}

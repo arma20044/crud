@@ -1,29 +1,46 @@
 'use client'
 
 import { esES } from '@mui/x-data-grid/locales';
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowModes, GridRowSelectionModel } from "@mui/x-data-grid";
-import { Button } from '@mui/material';
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowModes, GridRowSelectionModel, GridToolbar } from "@mui/x-data-grid";
+import { Box, Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import Link from 'next/link';
 import { useFormStatus } from 'react-dom';
 import { setCookie } from 'cookies-next'
 import { Car, DeleteIcon, EditIcon, SaveIcon } from 'lucide-react';
 import { IoAdd, IoDocument, IoDocumentText, IoPencil, IoTrash } from 'react-icons/io5';
+import { eliminarActivities } from '@/app/actions/activities';
 
-export default function Grilla({data}) {
+export default function Grilla({ data }) {
 
   const { pending } = useFormStatus()
 
-  console.log('llego grilla activity: ', JSON.stringify(data))
+  //console.log('llego grilla activity: ', JSON.stringify(data))
 
 
   const router = useRouter();
 
 
-  const handleEditClick  = (id ) => {
-    console.log('id para borrar: ' , {id})
+  const handleEditClick = (id) => {
+    console.log('id para borrar: ', { id })
+
+    const seleccionado = data.filter(item => item.id == rowSelectionModel[0]);
+
+    router.push(`/dashboard/activities/editar?dato=${seleccionado}`)
+
+  }
+
+
+  const handleDeleteClick = (id) => {
+    console.log('id para borrar: ', { id })
+
+    eliminarActivities(
+      id
+    );
+
+    router.refresh();
   }
 
 
@@ -52,7 +69,7 @@ export default function Grilla({data}) {
               sx={{
                 color: 'primary.main',
               }}
-              //onClick={handleSaveClick(id)}
+            //onClick={handleSaveClick(id)}
             />,
             <GridActionsCellItem
               icon={<Car />}
@@ -69,13 +86,13 @@ export default function Grilla({data}) {
             icon={<IoPencil size={30} />}
             label="Edit"
             className="textPrimary"
-            //onClick={() => handleEditClick(id)}
+            onClick={() => handleEditClick(id)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<IoTrash size={30}/>}
+            icon={<IoTrash size={30} />}
             label="Delete"
-            onClick={() => handleEditClick(id)}
+            onClick={() => handleDeleteClick(id)}
             color="inherit"
           />,
         ];
@@ -88,9 +105,9 @@ export default function Grilla({data}) {
     //throw new Error("Function not implemented.");
     console.log('borrar', rowSelectionModel)
 
-    borrarPersona(JSON.stringify({
-      "id": rowSelectionModel[0]
-    }));
+    eliminarActivities(
+      rowSelectionModel[0]
+    );
 
     router.refresh()
   }
@@ -100,61 +117,73 @@ export default function Grilla({data}) {
     console.log('quiero borrar')
     console.log(JSON.stringify(rowSelectionModel))
 
-    if (rowSelectionModel.length === 0 ){
+    if (rowSelectionModel.length === 0) {
       alert("Seleccionar Primero")
     }
     else {
       borrarPersona(JSON.stringify({
         "id": rowSelectionModel[0]
-      })) 
+      }))
 
       router.refresh()
-      
+
     }
 
-    
+
 
   }
+
+  
+
 
   const [rowSelectionModel, setRowSelectionModel] =
     React.useState<GridRowSelectionModel>([]);
 
-    useEffect(() => {
-      rowSelectionModel && rowSelectionModel.length>0 && setCookie('seleccionado',rowSelectionModel)
-    
-      
-    }, [rowSelectionModel])
-    
-  
+    const selectedRows = data.filter(item => item.id == rowSelectionModel[0]);
+
+    //const selectedRows = useMemo(() => [...data].filter(row => row.id == rowSelectionModel[0]), [data])
+
+
+  useEffect(() => {
+    rowSelectionModel && rowSelectionModel.length > 0 && //setCookie('seleccionado', rowSelectionModel)
+    console.log(JSON.stringify(rowSelectionModel))
+
+    console.log(JSON.stringify(selectedRows))
+
+
+  }, [rowSelectionModel])
+
+
   return (
     <div>
+     
+
       {/* <button className={
-        `bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`
-      }  onClick={() => router.push('/dashboard/persona/nuevo') }>Agregar</button> */}
-
-<button className={
         `bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mx-4 rounded`
-      }  onClick={handleClick } type='submit' disabled={pending}>Borrar</button>
+      } onClick={handleClick} type='submit' disabled={pending}>Borrar</button> */}
 
-      {/* <Link href={"/dashboard/persona/nuevo"}>Add</Link> */}
+      
 
-      {/* <h1>Hello Grilla</h1> */}
-      {/* {JSON.stringify(data)} */}
+      {
+        <Box sx={{ height: 400, width: 1 }}>
+          <DataGrid
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+            },
+          }}
+            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
 
-      { 
-      <div style={{ height: 350, width: '100%' }}>
-      <DataGrid 
-      localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-          
 
-      rows={data} columns={columns}
+            rows={data} columns={columns}
 
-      rowSelectionModel={rowSelectionModel}
-      onRowSelectionModelChange={(newRowSelectionModel) => {
-        setRowSelectionModel(newRowSelectionModel);
-      }}
-      />
-      </div>
+            rowSelectionModel={rowSelectionModel}
+            onRowSelectionModelChange={(newRowSelectionModel) => {
+              setRowSelectionModel(newRowSelectionModel);
+            }}
+          />
+        </Box>
       }
     </div>
   );
