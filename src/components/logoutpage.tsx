@@ -4,7 +4,7 @@
 import { redirect } from "next/navigation"
 import { Button } from "./ui/button"
 import { SessionProvider, useSession,signIn,signOut } from "next-auth/react"
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 
 
@@ -27,6 +27,10 @@ export default function Logoutpage() {
   if(status==='authenticated'){
     return(
       <>
+      <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
        {/* <button onClick={() => signOut()}></button> */}
        <span>{`logeado como: ${session.user?.email} `}</span>
         <br></br>

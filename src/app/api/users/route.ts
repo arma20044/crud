@@ -2,6 +2,19 @@ import { NextResponse } from "next/server";
 import { hash } from "bcrypt";
 import { sql } from "@vercel/postgres";
 
+
+export async function GET(request: Request) {
+
+
+  const response = await sql`SELECT * FROM USERS `;
+
+  return new Response(JSON.stringify({
+      resultado: response.rows
+      // message: `${saludo}`
+      // message: "hola"
+  }), { status: 200 });
+}
+
 export async function POST(request: Request) {
   try {
 
