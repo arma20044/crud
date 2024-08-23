@@ -5,11 +5,19 @@ import { redirect } from "next/navigation"
 import { Button } from "./ui/button"
 import { SessionProvider, useSession,signIn,signOut } from "next-auth/react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { getCookie, getCookies } from "cookies-next"
+import Image from "next/image"
+
 
 
 
 
 export default function Logoutpage() {
+
+
+  
+
+  const user = getCookie('currentAvatar')
 
  
   const { data: session,status } = useSession()
@@ -27,12 +35,18 @@ export default function Logoutpage() {
   if(status==='authenticated'){
     return(
       <>
+       <Image alt="esto" width={300} height={300} src={`/artworks-000119416310-3lsyax-t500x500.jpeg`}/>
       <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage 
+                src="https://github.com/shadcn.png" 
+               // src={`./abc.jpeg`}
+                />
+               
                 <AvatarFallback>CN</AvatarFallback>
             </Avatar>
        {/* <button onClick={() => signOut()}></button> */}
        <span>{`logeado como: ${session.user?.email} `}</span>
+       <span>{JSON.stringify(user)}</span>
         <br></br>
       <Button onClick={() => signOut()}>salir</Button>
       {/* <span>salir</span> */}

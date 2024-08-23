@@ -3,6 +3,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { sql } from "@vercel/postgres";
 import { compare } from "bcrypt";
 import { signIn, signOut } from 'next-auth/react';
+import { cookies } from "next/headers";
+
 
 const handler = NextAuth({
   session: {
@@ -44,6 +46,12 @@ const handler = NextAuth({
         `;
         const user = response.rows[0];
 
+        console.log('userrr: ' + JSON.stringify(user))
+
+        const cookieStore = cookies();
+        //cookieStore.set('currentUser', user)
+        cookieStore.set({name:'currentAvatar',value:user.avatar_url})
+
         const passwordCorrect = await compare(
           credentials?.password || "",
           user.password
@@ -53,6 +61,7 @@ const handler = NextAuth({
           return {
             id: user.id,
             email: user.email,
+            avatarUrl: user.avatarUrl
           };
         }
 

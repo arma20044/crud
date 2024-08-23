@@ -51,7 +51,7 @@ export default function Grilla({ data }) {
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'id', width: 150 },
     { field: 'email', headerName: 'email', width: 150 },
-    { field: 'password', headerName: 'password', width: 200 },
+    { field: 'password', headerName: 'password', width: 500 },
     { field: 'avatar_url', headerName: 'avatar_url', width: 200 },
     // { field: 'fecha_nacimiento', headerName: 'fecha_nacimiento', width: 250 },
     // { field: 'correo_electronico', headerName: 'correo_electronico', width: 250 },
